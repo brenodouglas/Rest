@@ -12,11 +12,13 @@ class Instance extends AbstractRoute
     protected $instance = null;
     /** @var ReflectionMethod */
     protected $reflection;
+    protected $methodInstance;
 
-    public function __construct($method, $pattern, $instance)
+    public function __construct($method, $pattern, $instance, $methodInstance = null)
     {
         $this->instance = $instance;
         $this->class = get_class($instance);
+        $this->methodInstance = $methodInstance;
         parent::__construct($method, $pattern);
     }
 
@@ -35,8 +37,12 @@ class Instance extends AbstractRoute
         if (!$this->instance instanceof Routable)
             throw new InvalidArgumentException(''); //TODO
 
-            return call_user_func_array(
-            array($this->instance, $method), $params
+        return $this->methodInstance != null ? call_user_func_array(
+            array($this->instance, $this->methodInstance),
+            $params
+        ) : call_user_func_array(
+            array($this->instance, $method),
+            $params
         );
     }
 

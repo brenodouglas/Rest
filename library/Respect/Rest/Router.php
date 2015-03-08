@@ -42,7 +42,7 @@ class Router
         if (is_callable($routeTarget)) //closures, func names, callbacks
             return $this->callbackRoute($method, $path, $routeTarget);
         elseif ($routeTarget instanceof Routable) //direct instances
-            return $this->instanceRoute($method, $path, $routeTarget);
+            return $this->instanceRoute($method, $path, $routeTarget, (! $args[2] && ! is_string($args[2])) ? null : $args[2]);
         elseif (!is_string($routeTarget)) //static returns the argument itself
             return $this->staticRoute($method, $path, $routeTarget);
         elseif (is_string($routeTarget) && !class_exists($routeTarget))
@@ -224,9 +224,9 @@ class Router
     }
 
     /** Creates and returns an instance-based route */
-    public function instanceRoute($method, $path, $instance)
+    public function instanceRoute($method, $path, $instance, $methodInstance = null)
     {
-        $route = new Routes\Instance($method, $path, $instance);
+        $route = new Routes\Instance($method, $path, $instance, $methodInstance);
         $this->appendRoute($route);
         return $route;
     }

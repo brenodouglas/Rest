@@ -54,6 +54,13 @@ namespace Respect\Rest {
             );
             $this->assertInstanceOf('Respect\Rest\Routes\Instance', $route); 
         }
+        function test_magic_call_with_object_isntance_should_create_instance_route_with_method_name()
+        {
+            $route = $this->router->thisIsAMagicCall(
+                '/some/path', new DummyRoute, 'methodName'
+            );
+            $this->assertInstanceOf('Respect\Rest\Routes\Instance', $route);  
+        }
         function test_magic_call_with_class_name_should_return_classname_route()
         { 
             $route = $this->router->thisIsAMagicCall(
