@@ -128,7 +128,7 @@ class Router
         if ($this->methodOverriding && isset($_REQUEST['_method']))
             $request->method = strtoupper($_REQUEST['_method']);
 
-        if ($request->method === 'OPTIONS' && $request->uri === '*') {
+        if ($request->method === 'OPTIONS') {
             $allowedMethods = array();
 
             foreach ($this->routes as $route) 
