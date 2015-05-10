@@ -129,15 +129,8 @@ class Router
             $request->method = strtoupper($_REQUEST['_method']);
 
         if ($request->method === 'OPTIONS') {
-            $allowedMethods = array();
-
-            foreach ($this->routes as $route) 
-                $allowedMethods[] = $route->method;
-
-            if ($allowedMethods)
-                header('Allow: '.implode(', ', $allowedMethods));
-
-            return $request;
+            header("HTTP/1.0 200 OK");
+            exit();
         }
 
         usort($this->routes, function($a, $b) {
